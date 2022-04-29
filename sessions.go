@@ -70,7 +70,7 @@ func merge_setting(request_setting, session_setting interface{}) interface{} {
 			return merged_setting
 		}
 		for key, _ := range *requestd_setting {
-			merged_setting.Set(key,(*requestd_setting)[key][0])
+			merged_setting.Set(key, (*requestd_setting)[key][0])
 		}
 		return merged_setting
 	case []string:
@@ -359,7 +359,7 @@ func (this *Session) Send(preq *models.PrepareRequest, req *url.Request) (*model
 		this.client.CheckRedirect = disableRedirect
 	}
 	u, _ := url2.Parse(preq.Url)
-	if req.Headers != nil{
+	if req.Headers != nil {
 		if (*req.Headers)[http.HeaderOrderKey] != nil {
 			(*preq.Headers)[http.HeaderOrderKey] = (*req.Headers)[http.HeaderOrderKey]
 		}
@@ -376,6 +376,7 @@ func (this *Session) Send(preq *models.PrepareRequest, req *url.Request) (*model
 	if err != nil {
 		return nil, err
 	}
+	defer resp.Body.Close()
 	response := this.buildResponse(resp, preq, req)
 	response.History = history
 	return response, nil
